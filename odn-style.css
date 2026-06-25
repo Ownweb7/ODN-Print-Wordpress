@@ -118,3 +118,81 @@ header.wp-block-template-part, .wp-block-template-part header, header{
   padding:5px 10px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); }
 .odn-wiper .odn-wiper-lbl.l{ left:14px; color:#5FE7DE; }
 .odn-wiper .odn-wiper-lbl.r{ right:14px; color:#F2A93B; }
+
+/* ===== WooCommerce account / login / register / checkout / cart — ODN dark skin ===== */
+.woocommerce-account .woocommerce,
+.woocommerce-checkout .woocommerce,
+.woocommerce-cart .woocommerce{ max-width:1100px; margin-inline:auto; }
+
+/* Field labels + inputs */
+.woocommerce form .form-row label,
+.woocommerce-account label,
+.woocommerce .form-row label,
+.woocommerce-input-wrapper label{ color:var(--odn-dim); font-size:.85rem; }
+.woocommerce form .form-row input.input-text,
+.woocommerce form .form-row textarea,
+.woocommerce-input-wrapper input,
+.woocommerce input.input-text,
+.woocommerce select,
+.woocommerce .select2-container .select2-selection{
+  background:var(--odn-surface) !important; color:var(--odn-text) !important;
+  border:1px solid var(--odn-border-strong) !important; border-radius:12px !important;
+  padding:12px 14px !important; }
+.woocommerce form .form-row input.input-text:focus,
+.woocommerce form .form-row textarea:focus,
+.woocommerce-input-wrapper input:focus{
+  outline:none; border-color:var(--odn-accent) !important;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--odn-accent) 18%,transparent) !important; }
+
+/* Buttons */
+.woocommerce-form-login .button,
+.woocommerce-form-register .button,
+.woocommerce-MyAccount-content .button,
+.woocommerce #respond input#submit,
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce button.button.alt,
+.woocommerce input.button{
+  background:linear-gradient(135deg,var(--odn-accent),var(--odn-accent2)) !important;
+  color:#0b0b0b !important; border:0 !important; border-radius:999px !important;
+  padding:13px 26px !important; font-weight:600 !important; }
+.woocommerce a.button:hover,
+.woocommerce button.button:hover{ filter:brightness(1.05); }
+
+/* Login / register cards */
+.woocommerce .col2-set{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+@media (max-width:780px){ .woocommerce .col2-set{ grid-template-columns:1fr; } }
+.woocommerce-form-login,
+.woocommerce-form-register,
+.woocommerce-ResetPassword{
+  border:1px solid var(--odn-border); border-radius:18px;
+  background:var(--odn-surface); padding:26px; }
+
+/* My Account: navigation + content panels */
+.woocommerce-MyAccount-navigation ul{ list-style:none; margin:0; padding:0;
+  display:flex; flex-direction:column; gap:4px; }
+.woocommerce-MyAccount-navigation li a{ display:block; padding:11px 14px; border-radius:12px;
+  color:var(--odn-dim); border:1px solid transparent; text-decoration:none; }
+.woocommerce-MyAccount-navigation li.is-active a,
+.woocommerce-MyAccount-navigation li a:hover{
+  color:var(--odn-text); background:var(--odn-surface); border-color:var(--odn-border); }
+.woocommerce-MyAccount-content{ border:1px solid var(--odn-border); border-radius:18px;
+  background:var(--odn-surface); padding:24px; }
+
+/* Tables (orders, addresses, cart) */
+.woocommerce table.shop_table,
+.woocommerce-orders-table,
+.woocommerce table.cart{ border:1px solid var(--odn-border); border-radius:14px;
+  border-collapse:separate; overflow:hidden; background:var(--odn-surface); color:var(--odn-text); }
+.woocommerce table.shop_table th,
+.woocommerce table.shop_table td,
+.woocommerce table.cart th,
+.woocommerce table.cart td{ border-top:1px solid var(--odn-border); padding:12px 14px; }
+.woocommerce .cart_totals h2,
+.woocommerce-account h2, .woocommerce-account h3{ color:var(--odn-text); }
+
+/* Notices */
+.woocommerce-message,.woocommerce-info,.woocommerce-error,.woocommerce-noreviews{
+  border:1px solid var(--odn-border); background:var(--odn-surface); color:var(--odn-text);
+  border-radius:12px; border-left:4px solid var(--odn-accent); }
+.woocommerce-error{ border-left-color:#ff8e7a; }
