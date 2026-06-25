@@ -1,0 +1,120 @@
+/* ODN Prints — brand skin + effects (loaded by the ODN Prints plugin) */
+:root{
+  --odn-bg:#08090C; --odn-bg2:#0D0F14;
+  --odn-text:#EDEFF5; --odn-dim:#8A92A4;
+  --odn-accent:#F2A93B; --odn-accent2:#F8D281; --odn-aqua:#5FE7DE;
+  --odn-border:rgba(255,255,255,.10); --odn-border-strong:rgba(255,255,255,.18);
+  --odn-surface:rgba(255,255,255,.045);
+}
+
+/* ---- base ---- */
+body{ background:var(--odn-bg); color:var(--odn-text);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+
+/* glow + grid behind everything */
+body::before{ content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(50% 38% at 78% 8%, color-mix(in srgb,var(--odn-accent) 22%,transparent), transparent 70%),
+    radial-gradient(46% 34% at 10% 22%, color-mix(in srgb,var(--odn-aqua) 14%,transparent), transparent 70%); }
+body::after{ content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.45;
+  background-image:linear-gradient(var(--odn-border) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--odn-border) 1px,transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(70% 55% at 50% 0%,#000,transparent);
+          mask-image:radial-gradient(70% 55% at 50% 0%,#000,transparent); }
+.wp-site-blocks{ position:relative; z-index:1; }
+
+/* ---- typography ---- */
+h1,h2,h3,h4,.wp-block-heading{
+  font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  font-weight:500; letter-spacing:-.02em; color:var(--odn-text); }
+h1 em, .odn-amber{ font-style:italic;
+  background:linear-gradient(120deg,var(--odn-accent),var(--odn-accent2));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+a{ color:var(--odn-accent); }
+
+/* ---- header / nav (dark, sticky, glassy) ---- */
+header.wp-block-template-part, .wp-block-template-part header, header{
+  background:color-mix(in srgb,var(--odn-bg) 72%,transparent);
+  -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--odn-border); }
+.wp-block-site-title a, .wp-block-navigation a{ color:var(--odn-text); }
+
+/* ---- buttons ---- */
+.wp-block-button__link{ border-radius:999px; font-weight:600; }
+.odn-pill .wp-block-button__link, .wp-block-button.is-style-fill .wp-block-button__link{
+  background:linear-gradient(135deg,var(--odn-accent),var(--odn-accent2));
+  color:#0b0b0b; box-shadow:0 14px 34px -14px var(--odn-accent); border:0; }
+.odn-ghost .wp-block-button__link, .wp-block-button.is-style-outline .wp-block-button__link{
+  background:transparent; color:var(--odn-text); border:1px solid var(--odn-border-strong); }
+
+/* ---- glass cards (homepage category tiles) ---- */
+.odn-tile, .wp-block-columns .wp-block-column > .wp-block-group{
+  border:1px solid var(--odn-border); border-radius:22px;
+  background:var(--odn-surface); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+  box-shadow:0 20px 60px -30px rgba(0,0,0,.7);
+  transition:transform .3s,border-color .3s,box-shadow .3s; }
+.odn-tile:hover, .wp-block-columns .wp-block-column > .wp-block-group:hover{
+  transform:translateY(-8px);
+  border-color:color-mix(in srgb,var(--odn-accent) 55%,transparent);
+  box-shadow:0 34px 70px -34px rgba(0,0,0,.7); }
+
+/* eyebrow pill */
+.odn-eyebrow{ display:inline-flex; align-items:center; gap:10px; color:var(--odn-accent);
+  padding:7px 14px; border:1px solid var(--odn-border); border-radius:999px;
+  background:var(--odn-surface); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; }
+
+/* ---- WooCommerce: keep shop/product text readable on dark ---- */
+.woocommerce, .woocommerce-page, .wc-block-grid, .wp-block-woocommerce-cart,
+.wp-block-woocommerce-checkout{ color:var(--odn-text); }
+.woocommerce ul.products li.product, .wc-block-grid__product{
+  background:var(--odn-surface); border:1px solid var(--odn-border);
+  border-radius:18px; padding:14px; }
+.woocommerce span.price, .woocommerce-Price-amount{ color:var(--odn-text); }
+.woocommerce .button, .woocommerce a.button, .woocommerce button.button{
+  background:linear-gradient(135deg,var(--odn-accent),var(--odn-accent2))!important;
+  color:#0b0b0b!important; border-radius:999px!important; border:0!important; }
+
+/* ===== Cursor-follow amber glow (added by odn-interactions.js) ===== */
+#odn-spot{
+  position:fixed; left:0; top:0; width:480px; height:480px; border-radius:50%;
+  z-index:5; pointer-events:none; opacity:0; will-change:transform;
+  transition:opacity .4s ease; mix-blend-mode:screen;
+  background:radial-gradient(circle, color-mix(in srgb,#F2A93B 16%,transparent), transparent 60%);
+}
+@media (pointer:coarse){ #odn-spot{ display:none; } }
+
+/* ===== Tilt + glare on cards ===== */
+.odn-tilt{ position:relative; transition:transform .25s ease, border-color .3s, box-shadow .3s; transform-style:preserve-3d; }
+.odn-glare{ position:absolute; inset:0; border-radius:inherit; pointer-events:none; opacity:0; transition:opacity .3s;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%), color-mix(in srgb,#F2A93B 26%,transparent), transparent 45%); }
+.odn-tilt:hover .odn-glare{ opacity:1; }
+
+/* ===== Black-to-colour reveal on product images ===== */
+.woocommerce ul.products li.product img,
+.wc-block-grid__product img,
+.wp-block-woocommerce-product-template img,
+.odn-tile img{
+  filter:grayscale(1) contrast(.92) brightness(.92);
+  transition:filter .5s ease, transform .5s ease;
+}
+.woocommerce ul.products li.product:hover img,
+.wc-block-grid__product:hover img,
+.wp-block-woocommerce-product-template li:hover img,
+.odn-tile:hover img{ filter:none; }
+
+/* ===== Before/After wiper (shortcode: [odn_wiper]) ===== */
+.odn-wiper{ position:relative; width:100%; max-width:430px; aspect-ratio:5/6; margin:0 auto;
+  border-radius:24px; overflow:hidden; border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 30px 80px -40px rgba(0,0,0,.85); user-select:none; touch-action:none; background:#11141B; }
+.odn-wiper img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:none !important; }
+.odn-wiper .odn-wiper-before{ clip-path:inset(0 calc(100% - var(--pos,55%)) 0 0); }
+.odn-wiper .odn-wiper-divider{ position:absolute; top:0; bottom:0; left:var(--pos,55%); width:2px;
+  background:linear-gradient(#F2A93B,#F8D281); transform:translateX(-1px); z-index:4; }
+.odn-wiper .odn-wiper-handle{ position:absolute; top:50%; left:var(--pos,55%); transform:translate(-50%,-50%); z-index:5;
+  width:46px; height:46px; border-radius:50%; background:#12151C; border:1.5px solid #F2A93B; display:grid; place-items:center;
+  cursor:ew-resize; color:#F2A93B; box-shadow:0 8px 22px -8px rgba(0,0,0,.6); font-size:1.1rem; }
+.odn-wiper .odn-wiper-lbl{ position:absolute; top:14px; z-index:4; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase;
+  padding:5px 10px; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); }
+.odn-wiper .odn-wiper-lbl.l{ left:14px; color:#5FE7DE; }
+.odn-wiper .odn-wiper-lbl.r{ right:14px; color:#F2A93B; }
