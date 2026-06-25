@@ -26,6 +26,39 @@ add_action( 'after_setup_theme', function () {
 } );
 
 /**
+ * Full-page "ODN Prints app" template.
+ *
+ * Renders the original single-page ODN Prints site (templates/odn-app.php)
+ * with its own <html>, CSS and JS — no theme header/footer — so it looks
+ * identical to the standalone design. A page uses it when either:
+ *   - its Template is set to "ODN Prints — Full App", or
+ *   - its slug is "odn-app".
+ */
+const ODN_PRINTS_TEMPLATE = 'odn-app';
+
+// Expose the template in the page editor's Template dropdown.
+add_filter( 'theme_page_templates', function ( $templates ) {
+	$templates[ ODN_PRINTS_TEMPLATE ] = 'ODN Prints — Full App';
+	return $templates;
+} );
+
+function odn_prints_wants_app_template() {
+	if ( ! is_page() ) { return false; }
+	if ( get_page_template_slug() === ODN_PRINTS_TEMPLATE ) { return true; }
+	$page = get_queried_object();
+	return ( $page instanceof WP_Post && $page->post_name === ODN_PRINTS_TEMPLATE );
+}
+
+// Serve the standalone template instead of the theme's.
+add_filter( 'template_include', function ( $template ) {
+	if ( odn_prints_wants_app_template() ) {
+		$custom = plugin_dir_path( __FILE__ ) . 'templates/odn-app.php';
+		if ( file_exists( $custom ) ) { return $custom; }
+	}
+	return $template;
+}, 99 );
+
+/**
  * Before/after wiper shortcode.
  * [odn_wiper before="IMG_URL" after="IMG_URL" before_label="Your photo" after_label="The print" pos="55"]
  */
