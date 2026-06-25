@@ -1,6 +1,6 @@
 /* ODN Prints — interactive effects: cursor glow, tilt cards, before/after wiper */
 (function () {
-  var mq = window.matchMedia || function () { return { matches: false }; };
+  function mq(q) { return window.matchMedia ? window.matchMedia(q) : { matches: false }; }
   var FINE = mq('(pointer: fine)').matches;
   var REDUCED = mq('(prefers-reduced-motion: reduce)').matches;
 
