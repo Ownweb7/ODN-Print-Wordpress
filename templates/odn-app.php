@@ -359,6 +359,9 @@ h1 em{font-style:italic;background:linear-gradient(120deg,var(--accent),var(--ac
 .ccard .row .v{font-size:1rem}
 
 footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font-size:.85rem}
+.foot-legal{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:18px;padding-top:18px;border-top:1px solid var(--border)}
+.foot-legal a{color:var(--faint);font-size:.82rem;transition:color .2s}
+.foot-legal a:hover{color:var(--accent-ink)}
 .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
 
 /* reveal */
@@ -995,6 +998,13 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
     <div>3D models · Metal prints · Desk mats — hand-made in Hisar</div>
     <div class="mono">© <span id="yr"></span> ODN &amp; Sons</div>
   </div>
+  <nav class="wrap foot-legal" aria-label="Policies">
+    <a href="/terms-conditions/">Terms &amp; Conditions</a>
+    <a href="/shipping-policy/">Shipping Policy</a>
+    <a href="/returns/">Returns</a>
+    <a href="/refund-policy/">Refund Policy</a>
+    <a href="/privacy-policy/">Privacy Policy</a>
+  </nav>
 </footer>
 
 <script>
