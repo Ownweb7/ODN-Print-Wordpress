@@ -571,13 +571,9 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
       <button data-go="3d">3D Models</button>
       <button data-go="metal">Metal Prints</button>
       <button data-go="deskmat">Desk Mats</button>
-      <a href="/my-account/">Account</a>
       <a class="navcta" href="/contact-us/">Contact</a>
     </nav>
     <div class="toolbtns">
-      <a class="cartbtn" href="/my-account/" aria-label="Account / login" title="Account / login">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
-      </a>
       <button class="cartbtn" id="cartBtn" aria-label="Open cart">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6L5 3H2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
         <span class="cart-badge" id="cartCount" hidden>0</span>
