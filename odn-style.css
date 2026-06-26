@@ -41,12 +41,17 @@ header.wp-block-template-part, .wp-block-template-part header, header{
 .wp-block-site-title a, .wp-block-navigation a{ color:var(--odn-text); }
 
 /* ---- buttons ---- */
-.wp-block-button__link{ border-radius:999px; font-weight:600; }
-.odn-pill .wp-block-button__link, .wp-block-button.is-style-fill .wp-block-button__link{
+.wp-block-button__link{ border-radius:999px; font-weight:600; padding:14px 28px; text-decoration:none !important; }
+/* Default + fill buttons = solid amber (matches the app's primary button) */
+.odn-pill .wp-block-button__link,
+.wp-block-button.is-style-fill .wp-block-button__link,
+.wp-block-button:not(.is-style-outline) .wp-block-button__link{
   background:linear-gradient(135deg,var(--odn-accent),var(--odn-accent2));
-  color:#0b0b0b; box-shadow:0 14px 34px -14px var(--odn-accent); border:0; }
+  color:#0b0b0b !important; box-shadow:0 14px 34px -14px var(--odn-accent); border:0; }
+/* Outline buttons = dark glass ghost (matches the app's secondary button) */
 .odn-ghost .wp-block-button__link, .wp-block-button.is-style-outline .wp-block-button__link{
-  background:transparent; color:var(--odn-text); border:1px solid var(--odn-border-strong); }
+  background:var(--odn-surface); color:var(--odn-text) !important;
+  border:1px solid var(--odn-border-strong); box-shadow:none; }
 
 /* ---- glass cards (homepage category tiles) ---- */
 .odn-tile, .wp-block-columns .wp-block-column > .wp-block-group{
@@ -229,7 +234,7 @@ body.page:not(.woocommerce-page) .wp-block-post-content ol{
 body.page:not(.woocommerce-page) .wp-block-post-content li{
   line-height:1.7; margin-bottom:7px; color:var(--odn-text);
 }
-body.page:not(.woocommerce-page) .wp-block-post-content a{
+body.page:not(.woocommerce-page) .wp-block-post-content a:not(.wp-block-button__link){
   color:var(--odn-accent); text-decoration:underline; text-underline-offset:2px;
 }
 body.page:not(.woocommerce-page) .wp-block-post-content strong{ color:var(--odn-text); }
