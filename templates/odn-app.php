@@ -229,9 +229,10 @@ h1 em{font-style:italic;background:linear-gradient(120deg,var(--accent),var(--ac
 /* contact */
 /* product detail page (PDP) */
 .pdp{display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:start;margin-top:8px}
-.gallery{display:grid;grid-template-columns:74px 1fr;gap:16px}
-.thumbs{display:flex;flex-direction:column;gap:10px}
-.thumb{border:1px solid var(--border);border-radius:12px;background:var(--surface);height:66px;cursor:pointer;display:grid;place-items:center;padding:7px;transition:border-color .2s}
+.pdp .gallery{display:flex;flex-direction:column;gap:14px}
+.pdp .pmain{order:1}
+.thumbs{order:2;display:flex;flex-direction:row;flex-wrap:wrap;gap:10px}
+.thumb{border:1px solid var(--border);border-radius:12px;background:var(--surface);width:72px;height:72px;flex:none;cursor:pointer;display:grid;place-items:center;padding:7px;transition:border-color .2s}
 .thumb.on{border-color:var(--accent)}
 .thumb svg{width:100%;height:100%}
 .pmain{border:1px solid var(--border-strong);border-radius:22px;aspect-ratio:1/1;display:grid;place-items:center;
