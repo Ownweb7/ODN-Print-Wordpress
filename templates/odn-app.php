@@ -572,7 +572,7 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
       <button data-go="metal">Metal Prints</button>
       <button data-go="deskmat">Desk Mats</button>
       <a href="/my-account/">Account</a>
-      <button class="navcta" data-scroll="contact">Request</button>
+      <a class="navcta" href="/contact-us/">Contact</a>
     </nav>
     <div class="toolbtns">
       <a class="cartbtn" href="/my-account/" aria-label="Account / login" title="Account / login">
@@ -985,7 +985,7 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
     </div>
     <div class="ccard reveal">
       <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 15.5a2 2 0 0 1-2 2 16 16 0 0 1-14-14 2 2 0 0 1 2-2h2.5a2 2 0 0 1 2 1.7l.4 2.5a2 2 0 0 1-.6 1.8l-1.2 1.2a13 13 0 0 0 5 5l1.2-1.2a2 2 0 0 1 1.8-.5l2.5.4a2 2 0 0 1 1.7 2z"/></svg></span><div><span class="k">WhatsApp</span><span class="v">+91 86074 50921</span></div></div>
-      <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><div><span class="k">Email</span><span class="v">custom@odnprints.com</span></div></div>
+      <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><div><span class="k">Email</span><span class="v">customercare@odnprint.com</span></div></div>
       <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><span class="k">Studio</span><span class="v">Hisar, Haryana</span></div></div>
       <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><span class="k">Turnaround</span><span class="v">Typically 7–14 days</span></div></div>
     </div>
@@ -1123,7 +1123,7 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
 
   /* ORDER PICKER (category-aware) */
   var PHONE='918607450921';        /* WhatsApp number, country code first, no + */
-  var EMAIL='custom@odnprints.com'; /* email */
+  var EMAIL='customercare@odnprint.com'; /* email */
   var chips=document.getElementById('chips'), pickerLabel=document.getElementById('pickerLabel');
   var waBtn=document.getElementById('waBtn'), mailBtn=document.getElementById('mailBtn');
   var chosen='Figurine';
