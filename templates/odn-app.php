@@ -238,6 +238,32 @@ h1 em{font-style:italic;background:linear-gradient(120deg,var(--accent),var(--ac
 .pmain{border:1px solid var(--border-strong);border-radius:22px;aspect-ratio:1/1;display:grid;place-items:center;
   background:radial-gradient(120% 90% at 50% 0%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 60%),var(--bg-3);box-shadow:var(--shadow)}
 .pmain svg{width:64%;height:auto;filter:drop-shadow(0 18px 30px rgba(0,0,0,.45))}
+.pdp .pmain-wrap{order:1;position:relative}
+.pmain{cursor:zoom-in}
+.pmain-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:42px;height:42px;border-radius:50%;
+  background:color-mix(in srgb,var(--solid) 78%,transparent);border:1px solid var(--border-strong);color:var(--text);
+  display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(6px);transition:background .2s,color .2s,transform .2s;opacity:0}
+.pmain-wrap:hover .pmain-nav,.pmain-nav:focus-visible{opacity:1}
+.pmain-nav:hover{background:var(--accent);color:#0b0b0b;transform:translateY(-50%) scale(1.06)}
+.pmain-nav.prev{left:12px}.pmain-nav.next{right:12px}
+.pmain-nav svg{width:20px;height:20px}
+@media(pointer:coarse){.pmain-nav{opacity:1}}
+/* Fullscreen product image */
+.pfs{position:fixed;inset:0;z-index:95;background:rgba(0,0,0,.84);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  display:grid;place-items:center;padding:30px}
+.pfs-art{width:min(82vw,640px);max-height:82vh;aspect-ratio:1/1;display:grid;place-items:center;
+  background:radial-gradient(120% 90% at 50% 0%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 60%),var(--bg-3);
+  border:1px solid var(--border-strong);border-radius:24px;box-shadow:var(--shadow)}
+.pfs-art svg{width:70%;height:auto;filter:drop-shadow(0 18px 30px rgba(0,0,0,.45))}
+.pfs-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:52px;height:52px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--border-strong);color:var(--text);display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s}
+.pfs-nav:hover{background:var(--accent);color:#0b0b0b}
+.pfs-nav.prev{left:24px}.pfs-nav.next{right:24px}
+.pfs-nav svg{width:24px;height:24px}
+.pfs-close{position:absolute;top:22px;right:24px;z-index:2;width:44px;height:44px;border-radius:50%;background:var(--surface);
+  border:1px solid var(--border);color:var(--text);display:grid;place-items:center;cursor:pointer;transition:background .2s,transform .2s}
+.pfs-close:hover{background:var(--bg-3);transform:rotate(90deg)}
+@media(max-width:560px){.pfs-nav{width:44px;height:44px}.pfs-nav.prev{left:10px}.pfs-nav.next{right:10px}}
 .buybox h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.8rem,3.4vw,2.6rem);letter-spacing:-.01em;margin-bottom:5px}
 .buybox .sub{color:var(--dim);font-size:.95rem;margin-bottom:16px}
 .buybox .price{font-family:var(--serif);font-size:2rem;margin-bottom:6px}
@@ -899,7 +925,11 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
     <div class="pdp">
       <div class="gallery">
         <div class="thumbs" id="pdpThumbs"></div>
-        <div class="pmain" id="pdpMain"></div>
+        <div class="pmain-wrap">
+          <div class="pmain" id="pdpMain" title="Click to view full screen"></div>
+          <button class="pmain-nav prev" id="pdpPrev" aria-label="Previous image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button class="pmain-nav next" id="pdpNext" aria-label="Next image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
       </div>
       <div class="buybox">
         <h2 id="pdpTitle"></h2>
@@ -952,6 +982,14 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
     <p class="fine">Indicative total — final quote confirmed on WhatsApp before any payment.</p>
   </div>
 </aside>
+
+<!-- ================= PRODUCT IMAGE FULLSCREEN ================= -->
+<div class="pfs" id="pdpFs" hidden role="dialog" aria-modal="true" aria-label="Product image">
+  <button class="pfs-close" id="pdpFsClose" aria-label="Close"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="pfs-nav prev" id="pdpFsPrev" aria-label="Previous image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
+  <div class="pfs-art" id="pdpFsArt"></div>
+  <button class="pfs-nav next" id="pdpFsNext" aria-label="Next image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+</div>
 
 <!-- ================= GALLERY LIGHTBOX ================= -->
 <div class="lb-backdrop" id="lbBackdrop" hidden></div>
@@ -1211,11 +1249,24 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
   var $=function(id){return document.getElementById(id)};
   function curSize(){var p=PDP[pdpKey];for(var i=0;i<p.sizes.length;i++){if(p.sizes[i].id===$('pdpSize').value)return p.sizes[i]}return p.sizes[0]}
   function updatePrice(){var s=curSize();$('pdpPrice').innerHTML=s.price?(INR(s.price)+' <small>/ '+pdpVar+'</small>'):'Custom quote';}
+  var PDP_MODES=['front','side','base','pack'];
   function renderGallery(){
-    var modes=['front','side','base','pack'];
-    $('pdpThumbs').innerHTML=modes.map(function(m){return '<button class="thumb'+(m===pdpMode?' on':'')+'" data-mode="'+m+'">'+shot(pdpKey,pdpVar,m)+'</button>'}).join('');
+    $('pdpThumbs').innerHTML=PDP_MODES.map(function(m){return '<button class="thumb'+(m===pdpMode?' on':'')+'" data-mode="'+m+'">'+shot(pdpKey,pdpVar,m)+'</button>'}).join('');
     $('pdpMain').innerHTML=shot(pdpKey,pdpVar,pdpMode);
   }
+  function setPdpMode(m){
+    pdpMode=m;
+    $('pdpMain').innerHTML=shot(pdpKey,pdpVar,pdpMode);
+    var thumbs=$('pdpThumbs').querySelectorAll('.thumb');
+    for(var i=0;i<thumbs.length;i++){thumbs[i].classList.toggle('on',thumbs[i].dataset.mode===m);}
+    if(!$('pdpFs').hidden){$('pdpFsArt').innerHTML=shot(pdpKey,pdpVar,pdpMode);}
+  }
+  function stepPdpMode(dir){
+    var i=PDP_MODES.indexOf(pdpMode); if(i<0){i=0;}
+    setPdpMode(PDP_MODES[(i+dir+PDP_MODES.length)%PDP_MODES.length]);
+  }
+  function openPdpFs(){$('pdpFsArt').innerHTML=shot(pdpKey,pdpVar,pdpMode);$('pdpFs').hidden=false;}
+  function closePdpFs(){$('pdpFs').hidden=true;}
   function renderPDP(){
     var p=PDP[pdpKey];
     var ok=false;for(var i=0;i<p.variants.length;i++){if(p.variants[i].id===pdpVar)ok=true}
@@ -1234,8 +1285,20 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
   /* PDP events (delegated on persistent containers) */
   $('pdpSwatches').addEventListener('click',function(e){var b=e.target.closest('[data-variant]');if(!b)return;pdpVar=b.dataset.variant;
     this.querySelectorAll('.swatch').forEach(function(s){s.classList.toggle('on',s===b)});renderGallery();updatePrice();});
-  $('pdpThumbs').addEventListener('click',function(e){var b=e.target.closest('[data-mode]');if(!b)return;pdpMode=b.dataset.mode;
-    this.querySelectorAll('.thumb').forEach(function(t){t.classList.toggle('on',t===b)});$('pdpMain').innerHTML=shot(pdpKey,pdpVar,pdpMode);});
+  $('pdpThumbs').addEventListener('click',function(e){var b=e.target.closest('[data-mode]');if(!b)return;setPdpMode(b.dataset.mode);});
+  $('pdpPrev').addEventListener('click',function(e){e.stopPropagation();stepPdpMode(-1);});
+  $('pdpNext').addEventListener('click',function(e){e.stopPropagation();stepPdpMode(1);});
+  $('pdpMain').addEventListener('click',openPdpFs);
+  $('pdpFsClose').addEventListener('click',closePdpFs);
+  $('pdpFsPrev').addEventListener('click',function(){stepPdpMode(-1);});
+  $('pdpFsNext').addEventListener('click',function(){stepPdpMode(1);});
+  $('pdpFs').addEventListener('click',function(e){if(e.target===$('pdpFs'))closePdpFs();});
+  document.addEventListener('keydown',function(e){
+    if($('pdpFs').hidden)return;
+    if(e.key==='Escape')closePdpFs();
+    else if(e.key==='ArrowLeft')stepPdpMode(-1);
+    else if(e.key==='ArrowRight')stepPdpMode(1);
+  });
   $('pdpSize').addEventListener('change',updatePrice);
   $('pdpQtyWrap').addEventListener('click',function(e){var b=e.target.closest('[data-q]');if(!b)return;
     pdpQty=Math.max(1,pdpQty+(+b.dataset.q));$('pdpQtyVal').textContent=pdpQty;});
