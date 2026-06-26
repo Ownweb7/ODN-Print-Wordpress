@@ -251,3 +251,46 @@ body.page:not(.woocommerce-page) .wp-block-post-content a:not(.wp-block-button__
   color:var(--odn-accent); text-decoration:underline; text-underline-offset:2px;
 }
 body.page:not(.woocommerce-page) .wp-block-post-content strong{ color:var(--odn-text); }
+
+/* ===== WooCommerce Mini-Cart slide-out drawer — ODN dark skin ===== */
+.wc-block-components-drawer__screen-overlay{
+  background:rgba(0,0,0,.55) !important; opacity:1 !important; }
+.wc-block-mini-cart__drawer .wc-block-components-drawer__content,
+.wc-block-mini-cart__drawer .wc-block-components-drawer,
+.wc-block-mini-cart__template-part{
+  background:var(--odn-bg2) !important; color:var(--odn-text) !important; }
+/* Recolor internal dividers/borders to the dark palette */
+.wc-block-mini-cart__drawer hr,
+.wc-block-mini-cart__drawer .wc-block-cart-items__row,
+.wc-block-mini-cart__drawer .wc-block-mini-cart__footer,
+.wc-block-mini-cart__drawer .wc-block-components-totals-item{
+  border-color:var(--odn-border) !important; }
+/* Headings, text, prices */
+.wc-block-mini-cart__title,
+.wc-block-mini-cart__title *,
+.wc-block-components-product-name,
+.wc-block-components-product-price,
+.wc-block-components-product-price *,
+.wc-block-components-formatted-money-amount,
+.wc-block-mini-cart__footer-subtotal,
+.wc-block-mini-cart__footer-subtotal *,
+.wc-block-components-totals-item__label,
+.wc-block-components-totals-item__value{ color:var(--odn-text) !important; }
+.wc-block-components-product-metadata,
+.wc-block-mini-cart__footer-actions ~ *,
+.wc-block-cart-item__remove-link{ color:var(--odn-dim) !important; }
+.wc-block-components-drawer__close{ color:var(--odn-text) !important; }
+.wc-block-components-drawer__close svg{ fill:currentColor !important; }
+.wc-block-mini-cart__footer{ background:var(--odn-bg2) !important; box-shadow:none !important; }
+/* Product thumbnails keep full colour inside the cart */
+.wc-block-mini-cart__drawer .wc-block-cart-item__image img,
+.wc-block-mini-cart__drawer .wc-block-components-product-image img{ filter:none !important; }
+/* Footer buttons: Checkout = amber fill, View cart = ghost */
+.wc-block-mini-cart__footer-checkout,
+.wc-block-mini-cart__footer-actions .wc-block-components-button.contained{
+  background:linear-gradient(135deg,var(--odn-accent),var(--odn-accent2)) !important;
+  color:#0b0b0b !important; border:0 !important; }
+.wc-block-mini-cart__footer-cart,
+.wc-block-mini-cart__footer-actions .wc-block-components-button.outlined{
+  background:transparent !important; color:var(--odn-text) !important;
+  border:1px solid var(--odn-border-strong) !important; }
