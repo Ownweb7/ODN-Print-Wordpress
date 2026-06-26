@@ -173,9 +173,22 @@ header.wp-block-template-part, .wp-block-template-part header, header{
   border:1px solid var(--odn-border); border-radius:18px;
   background:var(--odn-surface); padding:26px; }
 
+/* My Account dashboard — two-column layout (sidebar + panel) */
+.woocommerce-account.logged-in .woocommerce{ max-width:1060px; margin-inline:auto; }
+.woocommerce-account.logged-in .woocommerce::after{ content:""; display:table; clear:both; }
+.woocommerce-account.logged-in .woocommerce-MyAccount-navigation{
+  float:left; width:230px; margin:0 32px 24px 0; }
+.woocommerce-account.logged-in .woocommerce-MyAccount-content{ overflow:hidden; margin:0; }
+@media (max-width:782px){
+  .woocommerce-account.logged-in .woocommerce-MyAccount-navigation{ float:none; width:auto; margin-right:0; }
+  .woocommerce-account.logged-in .woocommerce-MyAccount-content{ overflow:visible; }
+}
+
 /* My Account: navigation + content panels */
-.woocommerce-MyAccount-navigation ul{ list-style:none; margin:0; padding:0;
-  display:flex; flex-direction:column; gap:4px; }
+.woocommerce-MyAccount-navigation ul,
+.woocommerce-MyAccount-navigation ul.woocommerce-MyAccount-navigation-links{
+  list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:4px; }
+.woocommerce-MyAccount-navigation li{ margin:0; padding:0; }
 .woocommerce-MyAccount-navigation li a{ display:block; padding:11px 14px; border-radius:12px;
   color:var(--odn-dim); border:1px solid transparent; text-decoration:none; }
 .woocommerce-MyAccount-navigation li.is-active a,

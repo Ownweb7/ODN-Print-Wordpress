@@ -3,7 +3,7 @@
  * Plugin Name: ODN Prints
  * Plugin URI:  https://odnprint.com
  * Description: ODN Prints storefront skin — dark glass + amber look, interactive effects (cursor glow, tilt cards, black-to-colour product images) and the [odn_wiper] before/after shortcode. Works on top of any theme.
- * Version:     1.1.1
+ * Version:     1.1.2
  * Author:      ODN & Sons
  * License:     GPL-2.0-or-later
  * Text Domain: odn-prints
@@ -11,7 +11,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'ODN_PRINTS_VER', '1.1.1' );
+define( 'ODN_PRINTS_VER', '1.1.2' );
 
 add_action( 'wp_enqueue_scripts', function () {
 	$base = plugin_dir_url( __FILE__ );
