@@ -287,6 +287,21 @@ h1 em{font-style:italic;background:linear-gradient(120deg,var(--accent),var(--ac
   border:1px solid var(--border);color:var(--text);display:grid;place-items:center;cursor:pointer;transition:background .2s,transform .2s}
 .pfs-close:hover{background:var(--bg-3);transform:rotate(90deg)}
 @media(max-width:560px){.pfs-nav{width:44px;height:44px}.pfs-nav.prev{left:10px}.pfs-nav.next{right:10px}}
+/* PDP reviews + gallery sections (#3) */
+.pdp-sec{padding:6px 0 44px}
+.pdp-sechead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px;
+  border-bottom:1px solid var(--border);padding-bottom:14px}
+.pdp-sechead .k{display:block;color:var(--faint);margin-bottom:4px}
+.pdp-sechead h3{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1}
+.pdp-revsum{color:var(--dim);font-size:.92rem;white-space:nowrap}
+.rev-note{color:var(--faint);font-size:.92rem;border:1px dashed var(--border);border-radius:14px;padding:26px;text-align:center}
+.pdp-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pdp-gcard{text-align:left;border:1px solid var(--border);border-radius:18px;background:var(--surface);overflow:hidden;
+  cursor:pointer;font-family:inherit;color:inherit;padding:0;transition:transform .25s,border-color .25s,box-shadow .25s}
+.pdp-gcard:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--accent) 50%,transparent);box-shadow:0 26px 54px -30px rgba(0,0,0,.7)}
+.pdp-gcard .gal-cap{padding:12px 14px 14px}
+@media(max-width:900px){.pdp-gallery{grid-template-columns:repeat(2,1fr)}.pdp-sechead h3{font-size:1.3rem}}
+@media(max-width:560px){.pdp-gallery{grid-template-columns:1fr}}
 .buybox h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.8rem,3.4vw,2.6rem);letter-spacing:-.01em;margin-bottom:5px}
 .buybox .sub{color:var(--dim);font-size:.95rem;margin-bottom:16px}
 .buybox .price{font-family:var(--serif);font-size:2rem;margin-bottom:6px}
@@ -1017,6 +1032,24 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
       </div>
     </div>
   </section>
+
+  <!-- #3.2 Reviews (scaffold — full build in #6) -->
+  <section class="pdp-sec wrap" id="pdpReviews">
+    <div class="pdp-sechead">
+      <div><span class="k mono">What buyers say</span><h3>Reviews</h3></div>
+      <span class="pdp-revsum" id="pdpRevSum"></span>
+    </div>
+    <div class="rev-scaffold"><p class="rev-note">Verified-buyer reviews for this product will appear here.</p></div>
+  </section>
+
+  <!-- #3.3 Gallery (reshuffles on every load) -->
+  <section class="pdp-sec wrap" id="pdpGallerySec">
+    <div class="pdp-sechead">
+      <div><span class="k mono">Real designs</span><h3>Gallery</h3></div>
+      <button class="btn btn-ghost" id="pdpOpenGallery">Open Gallery →</button>
+    </div>
+    <div class="pdp-gallery" id="pdpGallery"></div>
+  </section>
 </main>
 
 <!-- ================= ORDER WIZARD (guided) ================= -->
@@ -1357,8 +1390,31 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
       return '<button class="swatch'+(v.id===pdpVar?' on':'')+'" data-variant="'+v.id+'" title="'+v.id+'">'+inner+'</button>';
     }).join('');
     $('pdpSize').innerHTML=p.sizes.map(function(s){return '<option value="'+s.id+'">'+s.id+(s.price?(' — '+INR(s.price)):' — Quote')+'</option>'}).join('');
-    renderGallery(); updatePrice();
+    renderGallery(); updatePrice(); renderPdpGallery();
+    $('pdpRevSum').innerHTML='★ '+p.rating+' · '+p.reviews+' reviews';
   }
+  /* #3.3 PDP gallery preview — reshuffles on every render */
+  var pdpGalReg=[];
+  function shuffleArr(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function renderPdpGallery(){
+    var host=$('pdpGallery'); if(!host)return;
+    var src=(GAL[pdpKey]&&GAL[pdpKey].items)?GAL[pdpKey].items.slice():[];
+    shuffleArr(src); var show=src.slice(0,6); pdpGalReg=[];
+    host.innerHTML=show.map(function(it){
+      var vs=PDP[pdpKey].variants||[]; var vId=(vs.filter(function(v){return v.id===it.v})[0]||vs[0]||{}).id;
+      var idx=pdpGalReg.length; pdpGalReg.push({key:pdpKey,vId:vId,t:it.t,m:it.m,hue:0,img:it.img||null});
+      var art=it.img?('<div class="gal-art has-img"><img src="'+it.img+'" alt="'+esc(it.t)+'" loading="lazy"></div>')
+                    :('<div class="gal-art">'+shot(pdpKey,vId,'front')+'</div>');
+      return '<button class="pdp-gcard" data-pgidx="'+idx+'">'+art+'<div class="gal-cap"><span class="gal-t">'+esc(it.t)+'</span><span class="gal-m">'+esc(it.m)+'</span></div></button>';
+    }).join('');
+  }
+  document.getElementById('pdpGallery').addEventListener('click',function(e){
+    var c=e.target.closest('.pdp-gcard'); if(!c)return;
+    var r=pdpGalReg[+c.dataset.pgidx]; if(r)openLightbox(r);
+  });
+  document.getElementById('pdpOpenGallery').addEventListener('click',function(){
+    navigate(pdpKey==='figurine'?'3d':pdpKey);
+  });
   /* PDP events (delegated on persistent containers) */
   $('pdpSwatches').addEventListener('click',function(e){var b=e.target.closest('[data-variant]');if(!b)return;pdpVar=b.dataset.variant;
     this.querySelectorAll('.swatch').forEach(function(s){s.classList.toggle('on',s===b)});renderGallery();updatePrice();});
