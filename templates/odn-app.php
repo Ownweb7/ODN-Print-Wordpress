@@ -295,6 +295,41 @@ h1 em{font-style:italic;background:linear-gradient(120deg,var(--accent),var(--ac
 .pdp-sechead h3{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1}
 .pdp-revsum{color:var(--dim);font-size:.92rem;white-space:nowrap}
 .rev-note{color:var(--faint);font-size:.92rem;border:1px dashed var(--border);border-radius:14px;padding:26px;text-align:center}
+/* #6 reviews */
+.rev-wrap{display:grid;grid-template-columns:264px 1fr;gap:34px;align-items:start}
+.rev-summary{border:1px solid var(--border);border-radius:18px;background:var(--surface);padding:24px;text-align:center;position:sticky;top:20px}
+.rev-avg{font-family:var(--serif);font-size:3rem;font-weight:600;line-height:1}
+.rev-stars{color:var(--accent);letter-spacing:2px;font-size:1.05rem;display:inline-block;margin:6px 0}
+.rev-stars .off,.rev-rowstars .off{color:var(--border-strong)}
+.rev-count{color:var(--dim);font-size:.85rem}
+.rev-bars{margin-top:16px;display:flex;flex-direction:column;gap:7px;text-align:left}
+.rev-bar{display:flex;align-items:center;gap:8px;font-size:.75rem;color:var(--dim)}
+.rev-bar .lbl{width:26px;flex:none}
+.rev-bar .track{flex:1;height:7px;border-radius:99px;background:var(--bg-3);overflow:hidden}
+.rev-bar .fill{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.rev-bar .n{width:20px;text-align:right;flex:none}
+.rev-write{margin-top:18px;width:100%;justify-content:center}
+.rev-list{display:flex;flex-direction:column;gap:14px}
+.rev-empty{color:var(--faint);border:1px dashed var(--border);border-radius:14px;padding:30px;text-align:center}
+.rev-card{border:1px solid var(--border);border-radius:16px;background:var(--surface);padding:18px 20px}
+.rev-card .top{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.rev-ava{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:700;color:#0b0b0b;background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+.rev-who{flex:1;min-width:0}
+.rev-name{font-weight:600;font-size:.95rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rev-badge{font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent-ink);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent)}
+.rev-badge.rev-pending{background:var(--surface-2);color:var(--dim);border-color:var(--border)}
+.rev-date{font-size:.72rem;color:var(--faint)}
+.rev-rowstars{color:var(--accent);letter-spacing:1px;font-size:.85rem;flex:none}
+.rev-text{color:var(--dim);font-size:.92rem;line-height:1.6;margin-top:6px}
+.rev-form{border:1px solid var(--accent);border-radius:16px;background:color-mix(in srgb,var(--accent) 5%,var(--surface));padding:18px 20px;margin-bottom:14px}
+.rev-form h4{font-family:var(--serif);font-weight:600;margin-bottom:12px}
+.rev-form .row{margin-bottom:10px}
+.rev-form input,.rev-form textarea{width:100%;padding:11px 14px;border:1px solid var(--border-strong);border-radius:10px;background:var(--bg-3);color:var(--text);font:inherit}
+.rev-form input:focus,.rev-form textarea:focus{outline:none;border-color:var(--accent)}
+.rev-form .starpick{display:flex;gap:4px;font-size:1.5rem;color:var(--border-strong);cursor:pointer;margin-bottom:12px}
+.rev-form .starpick .s.on{color:var(--accent)}
+.rev-form .acts{display:flex;gap:10px;margin-top:6px}
+@media(max-width:760px){.rev-wrap{grid-template-columns:1fr}.rev-summary{position:static}}
 .pdp-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .pdp-gcard{text-align:left;border:1px solid var(--border);border-radius:18px;background:var(--surface);overflow:hidden;
   cursor:pointer;font-family:inherit;color:inherit;padding:0;transition:transform .25s,border-color .25s,box-shadow .25s}
@@ -1080,7 +1115,7 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
       <div><span class="k mono">What buyers say</span><h3>Reviews</h3></div>
       <span class="pdp-revsum" id="pdpRevSum"></span>
     </div>
-    <div class="rev-scaffold"><p class="rev-note">Verified-buyer reviews for this product will appear here.</p></div>
+    <div id="pdpRevBody"></div>
   </section>
 
   <!-- #3.3 Gallery (reshuffles on every load) -->
@@ -1445,8 +1480,7 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
     }).join('');
     $('pdpSize').innerHTML=p.sizes.map(function(s){return '<option value="'+s.id+'">'+s.id+(s.price?(' — '+INR(s.price)):' — Quote')+'</option>'}).join('');
     renderGallery(); updatePrice(); renderPdpGallery();
-    $('pdpRevSum').innerHTML='★ '+p.rating+' · '+p.reviews+' reviews';
-    pdpChoice=null; updateChosen();
+    pdpChoice=null; updateChosen(); renderReviews();
   }
   /* #3.3 PDP gallery preview — reshuffles on every render */
   var pdpGalReg=[];
@@ -1556,6 +1590,75 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
     pdpChoice={type:'design',title:b.dataset.dmt,vId:b.dataset.dmv,meta:b.dataset.dmm,img:b.dataset.dmimg||null};
     updateChosen();closeDModal();});
   document.addEventListener('keydown',function(e){if(!$('designModal').hidden&&e.key==='Escape')closeDModal();});
+
+  /* ===== #6 Reviews — custom ODN UI (demo seed; wire to WooCommerce reviews when live) ===== */
+  var REV_SEED={
+    figurine:[
+      {n:'Aarav S.',r:5,d:'2026-05-12',v:true,t:'The figurine of my parents came out incredibly detailed — the hand-painting is on another level. Packed beautifully too.'},
+      {n:'Meera K.',r:5,d:'2026-04-28',v:true,t:'Gifted the couple figurine for our anniversary. Looks exactly like the photo. Worth every rupee.'},
+      {n:'Rohit P.',r:4,d:'2026-04-03',v:true,t:'Great likeness and finish. Took a couple of days longer than expected but the studio kept me updated.'}
+    ],
+    metal:[
+      {n:'Sanya M.',r:5,d:'2026-05-20',v:true,t:'The metal print of our trek photo is stunning — colours pop and it feels premium. No glare in matte.'},
+      {n:'Devon R.',r:5,d:'2026-05-01',v:true,t:'Ordered an 8×12 gloss print. Sharp, vivid and arrived without a scratch. Will order more.'},
+      {n:'Kiran T.',r:4,d:'2026-03-22',v:false,t:'Lovely finish on aluminium. Wish there were more sizes between 8×12 and 12×18.'}
+    ],
+    deskmat:[
+      {n:'Ishaan V.',r:5,d:'2026-05-18',v:true,t:'Battlestation deskmat is huge and the stitched edges feel durable. Print is crisp edge to edge.'},
+      {n:'Nadia H.',r:5,d:'2026-04-15',v:true,t:'Non-slip base actually grips. Custom photo came out gorgeous. Highly recommend.'},
+      {n:'Arjun D.',r:4,d:'2026-03-30',v:true,t:'Good quality mat, colours accurate. Delivery to Hisar was quick.'}
+    ]
+  };
+  var REV_KEY='odn-reviews-v1';
+  function loadUserReviews(){try{var s=localStorage.getItem(REV_KEY);if(s){var o=JSON.parse(s);if(o)return o;}}catch(e){}return {};}
+  var userReviews=loadUserReviews();
+  function saveUserReviews(){try{localStorage.setItem(REV_KEY,JSON.stringify(userReviews));}catch(e){}}
+  function getReviews(key){return (REV_SEED[key]||[]).concat(userReviews[key]||[]);}
+  function starRow(r,cls){var s='';for(var i=1;i<=5;i++){s+='<span class="'+(i<=r?'':'off')+'">★</span>';}return '<span class="'+(cls||'')+'">'+s+'</span>';}
+  function fmtDate(d){try{return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}catch(e){return String(d);}}
+  var revFormOpen=false;
+  function renderReviews(){
+    var host=$('pdpRevBody'); if(!host)return;
+    var list=getReviews(pdpKey), count=list.length;
+    var avg=count?(list.reduce(function(a,r){return a+(+r.r||0);},0)/count):0;
+    var b=[0,0,0,0,0];
+    list.forEach(function(r){var i=Math.max(1,Math.min(5,Math.round(+r.r||0)));b[5-i]++;});
+    $('pdpRevSum').innerHTML=count?('★ '+avg.toFixed(1)+' · '+count+' review'+(count===1?'':'s')):'No reviews yet';
+    $('pdpRating').innerHTML='★★★★★ <span>'+(count?(avg.toFixed(1)+' ('+count+' review'+(count===1?'':'s')+')'):'New')+'</span>';
+    var bars='';
+    for(var k=5;k>=1;k--){var cnt=b[5-k],pct=count?Math.round(cnt/count*100):0;
+      bars+='<div class="rev-bar"><span class="lbl">'+k+'★</span><span class="track"><span class="fill" style="width:'+pct+'%"></span></span><span class="n">'+cnt+'</span></div>';}
+    var summary='<div class="rev-summary"><div class="rev-avg">'+(count?avg.toFixed(1):'—')+'</div>'+
+      starRow(Math.round(avg),'rev-stars')+'<div class="rev-count">'+(count?('Based on '+count+' review'+(count===1?'':'s')):'No reviews yet')+'</div>'+
+      '<div class="rev-bars">'+bars+'</div><button class="btn btn-pri rev-write" id="revWriteBtn">Write a review</button></div>';
+    var form=revFormOpen?('<form class="rev-form" id="revForm">'+
+      '<h4>Write a review</h4>'+
+      '<div class="starpick" id="revStars" data-val="5">'+[1,2,3,4,5].map(function(i){return '<span class="s on" data-s="'+i+'">★</span>';}).join('')+'</div>'+
+      '<div class="row"><input id="revName" placeholder="Your name" maxlength="40" required></div>'+
+      '<div class="row"><textarea id="revText" rows="3" placeholder="Share your experience with this product…" maxlength="600" required></textarea></div>'+
+      '<div class="acts"><button type="submit" class="btn btn-pri">Submit review</button><button type="button" class="btn btn-ghost" id="revCancel">Cancel</button></div>'+
+      '<p class="selnote" style="margin-top:8px">Reviews are checked before they appear publicly.</p></form>'):'';
+    var cards=count?list.slice().reverse().map(function(r){
+      var init=esc(String(r.n||'?').trim().charAt(0).toUpperCase());
+      var badge=r.pending?'<span class="rev-badge rev-pending">Pending</span>':(r.v?'<span class="rev-badge">Verified buyer</span>':'');
+      return '<div class="rev-card"><div class="top"><div class="rev-ava">'+init+'</div>'+
+        '<div class="rev-who"><div class="rev-name">'+esc(r.n)+' '+badge+'</div><div class="rev-date">'+fmtDate(r.d)+'</div></div>'+
+        starRow(r.r,'rev-rowstars')+'</div><div class="rev-text">'+esc(r.t)+'</div></div>';
+    }).join(''):'<div class="rev-empty">No reviews yet — be the first to review this product.</div>';
+    host.innerHTML='<div class="rev-wrap"><div>'+summary+'</div><div><div class="rev-list">'+form+cards+'</div></div></div>';
+    var wb=$('revWriteBtn'); if(wb)wb.addEventListener('click',function(){revFormOpen=true;renderReviews();var n=$('revName');if(n)n.focus();});
+    var cn=$('revCancel'); if(cn)cn.addEventListener('click',function(){revFormOpen=false;renderReviews();});
+    var sp=$('revStars'); if(sp)sp.addEventListener('click',function(e){var s=e.target.closest('[data-s]');if(!s)return;var v=+s.dataset.s;this.dataset.val=v;
+      this.querySelectorAll('.s').forEach(function(x){x.classList.toggle('on',+x.dataset.s<=v);});});
+    var fm=$('revForm'); if(fm)fm.addEventListener('submit',function(e){e.preventDefault();
+      var name=$('revName').value.trim(), text=$('revText').value.trim(), rat=+$('revStars').dataset.val||5;
+      if(!name||!text)return;
+      if(!userReviews[pdpKey])userReviews[pdpKey]=[];
+      userReviews[pdpKey].push({n:name,r:rat,d:new Date().toISOString(),v:false,t:text,pending:true});
+      saveUserReviews(); revFormOpen=false; renderReviews();
+      alert('Thanks! Your review was submitted and will appear after moderation.');
+    });
+  }
 
   function openShop(key){if(PDP[key]){pdpKey=key;pdpVar=PDP[key].variants[0].id;}navigate('shop');}
   document.addEventListener('click',function(e){var s=e.target.closest('[data-shop]');if(!s)return;e.preventDefault();openShop(s.dataset.shop);});
