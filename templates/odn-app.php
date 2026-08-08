@@ -302,6 +302,41 @@ h1 em{font-style:italic;background:linear-gradient(120deg,var(--accent),var(--ac
 .pdp-gcard .gal-cap{padding:12px 14px 14px}
 @media(max-width:900px){.pdp-gallery{grid-template-columns:repeat(2,1fr)}.pdp-sechead h3{font-size:1.3rem}}
 @media(max-width:560px){.pdp-gallery{grid-template-columns:1fr}}
+/* #4 choose buttons + chosen chip */
+.pdp-choose{display:flex;gap:12px;margin-top:14px}
+.pdp-cbtn{flex:1;justify-content:center;gap:9px;padding:14px 16px}
+.pdp-cbtn svg{width:18px;height:18px}
+.pdp-chosen{display:flex;align-items:center;gap:12px;margin-top:12px;padding:10px 12px;border:1px solid var(--accent);
+  border-radius:14px;background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
+.chosen-thumb{width:44px;height:44px;border-radius:10px;overflow:hidden;flex:none;background:var(--bg-3);display:grid;place-items:center;border:1px solid var(--border)}
+.chosen-thumb img{width:100%;height:100%;object-fit:cover}
+.chosen-thumb svg{width:82%;height:auto}
+.chosen-txt{display:flex;flex-direction:column;min-width:0;flex:1}
+.chosen-k{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.chosen-v{font-size:.9rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chosen-x{background:none;border:0;color:var(--dim);cursor:pointer;font-size:1.05rem;padding:4px 6px;line-height:1}
+.chosen-x:hover{color:var(--text)}
+.ci-choice{font-size:.72rem;color:var(--accent-ink);margin-top:3px}
+/* #5 designs modal */
+.dmodal{position:fixed;inset:0;z-index:120;background:var(--bg);display:flex;flex-direction:column;padding:22px clamp(16px,4vw,48px) 30px}
+.dmodal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.dmodal-head h3{font-family:var(--serif);font-weight:600;font-size:clamp(1.4rem,3vw,2rem);line-height:1}
+.dmodal-head .k{display:block;color:var(--faint);margin-bottom:5px}
+.dmodal-close{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;flex:none;display:grid;place-items:center;transition:transform .2s,background .2s}
+.dmodal-close:hover{background:var(--bg-3);transform:rotate(90deg)}
+.dmodal-tools{display:flex;flex-direction:column;gap:14px;padding:18px 0}
+.dmodal-search{width:100%;max-width:440px;padding:12px 16px;border:1px solid var(--border-strong);border-radius:12px;background:var(--surface);color:var(--text);font:inherit}
+.dmodal-search:focus{outline:none;border-color:var(--accent)}
+.dmodal-cats{display:flex;flex-wrap:wrap;gap:8px}
+.dmcat{padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--dim);cursor:pointer;font:inherit;font-size:.85rem;transition:all .2s}
+.dmcat:hover{color:var(--text)}
+.dmcat.on{background:var(--accent);color:#0b0b0b;border-color:var(--accent)}
+.dmodal-grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:6px 2px 20px;align-content:start}
+.dmcard{border:1px solid var(--border);border-radius:16px;background:var(--surface);overflow:hidden;display:flex;flex-direction:column}
+.dmcard .gal-cap{padding:10px 12px}
+.dmselect{margin:0 12px 12px;justify-content:center}
+@media(max-width:900px){.dmodal-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.dmodal-grid{grid-template-columns:1fr}}
 .buybox h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.8rem,3.4vw,2.6rem);letter-spacing:-.01em;margin-bottom:5px}
 .buybox .sub{color:var(--dim);font-size:.95rem;margin-bottom:16px}
 .buybox .price{font-family:var(--serif);font-size:2rem;margin-bottom:6px}
@@ -1027,6 +1062,12 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
           <div class="field"><span class="l">Qty</span><div class="qty" id="pdpQtyWrap"><button data-q="-1" aria-label="Less">−</button><span id="pdpQtyVal">1</span><button data-q="1" aria-label="More">+</button></div></div>
           <button class="btn btn-pri" id="pdpAdd">Add to cart</button>
         </div>
+        <div class="pdp-choose">
+          <button class="btn btn-ghost pdp-cbtn" id="pdpUpload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg> Upload Your Photo</button>
+          <button class="btn btn-ghost pdp-cbtn" id="pdpDesignsBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg> Designs</button>
+        </div>
+        <div class="pdp-chosen" id="pdpChosen" hidden></div>
+        <input type="file" id="pdpFile" accept="image/*" hidden>
         <p class="selnote">Final price is confirmed on WhatsApp once we see your photo or design.</p>
         <div class="support"><b>Need help choosing?</b> Message us on WhatsApp — we’ll guide sizing, style and turnaround before you pay.</div>
       </div>
@@ -1092,6 +1133,19 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
   <button class="pfs-nav prev" id="pdpFsPrev" aria-label="Previous image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
   <div class="pfs-art" id="pdpFsArt"></div>
   <button class="pfs-nav next" id="pdpFsNext" aria-label="Next image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+</div>
+
+<!-- ================= DESIGNS PICKER MODAL (#5) ================= -->
+<div class="dmodal" id="designModal" hidden role="dialog" aria-modal="true" aria-label="Choose a design">
+  <div class="dmodal-head">
+    <div><span class="k mono">Ready-made designs</span><h3 id="dmodalTitle">Choose a design</h3></div>
+    <button class="dmodal-close" id="dmodalClose" aria-label="Close"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="dmodal-tools">
+    <input type="search" id="dmodalSearch" class="dmodal-search" placeholder="Search designs — e.g. couple, gaming, portrait…" aria-label="Search designs">
+    <div class="dmodal-cats" id="dmodalCats"></div>
+  </div>
+  <div class="dmodal-grid" id="dmodalGrid"></div>
 </div>
 
 <!-- ================= GALLERY LIGHTBOX ================= -->
@@ -1392,6 +1446,7 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
     $('pdpSize').innerHTML=p.sizes.map(function(s){return '<option value="'+s.id+'">'+s.id+(s.price?(' — '+INR(s.price)):' — Quote')+'</option>'}).join('');
     renderGallery(); updatePrice(); renderPdpGallery();
     $('pdpRevSum').innerHTML='★ '+p.rating+' · '+p.reviews+' reviews';
+    pdpChoice=null; updateChosen();
   }
   /* #3.3 PDP gallery preview — reshuffles on every render */
   var pdpGalReg=[];
@@ -1437,9 +1492,71 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
     pdpQty=Math.max(1,pdpQty+(+b.dataset.q));$('pdpQtyVal').textContent=pdpQty;});
   $('pdpAdd').addEventListener('click',function(){
     var p=PDP[pdpKey], s=curSize();
-    cart.push({key:pdpKey,title:p.title,variant:pdpVar,size:s.id,price:s.price,qty:pdpQty,art:shot(pdpKey,pdpVar,'front')});
+    cart.push({key:pdpKey,title:p.title,variant:pdpVar,size:s.id,price:s.price,qty:pdpQty,art:shot(pdpKey,pdpVar,'front'),choice:pdpChoice});
+    pdpChoice=null; updateChosen();
     renderCart(); openCart();
   });
+
+  /* ===== #4 Upload Your Photo / Designs + #5 Designs picker modal ===== */
+  var pdpChoice=null;
+  function updateChosen(){
+    var el=$('pdpChosen'); if(!el)return;
+    if(!pdpChoice){el.hidden=true;el.innerHTML='';return;}
+    var thumb=pdpChoice.type==='upload'
+      ? '<img src="'+pdpChoice.dataUrl+'" alt="">'
+      : (pdpChoice.img?('<img src="'+pdpChoice.img+'" alt="">'):shot(pdpKey,pdpChoice.vId,'front'));
+    var label=pdpChoice.type==='upload'?pdpChoice.name:pdpChoice.title;
+    el.hidden=false;
+    el.innerHTML='<div class="chosen-thumb">'+thumb+'</div>'+
+      '<div class="chosen-txt"><span class="chosen-k">'+(pdpChoice.type==='upload'?'Your photo':'Selected design')+'</span>'+
+      '<span class="chosen-v">'+esc(label)+'</span></div>'+
+      '<button class="chosen-x" id="pdpChosenX" aria-label="Remove">&#10005;</button>';
+  }
+  $('pdpChosen').addEventListener('click',function(e){if(e.target.closest('#pdpChosenX')){pdpChoice=null;updateChosen();}});
+  $('pdpUpload').addEventListener('click',function(){$('pdpFile').click();});
+  $('pdpFile').addEventListener('change',function(){
+    var f=this.files&&this.files[0]; if(!f){return;}
+    if(f.size>8*1024*1024){alert('Please choose an image under 8 MB.');this.value='';return;}
+    var rd=new FileReader();
+    rd.onload=function(){pdpChoice={type:'upload',name:f.name,dataUrl:rd.result};updateChosen();};
+    rd.readAsDataURL(f); this.value='';
+  });
+  var dmCat='All', dmSearch='';
+  function openDModal(){dmCat='All';dmSearch='';$('dmodalSearch').value='';renderDModal();$('designModal').hidden=false;document.body.style.overflow='hidden';}
+  function closeDModal(){$('designModal').hidden=true;document.body.style.overflow='';}
+  function renderDModal(){
+    var cats=['All'].concat((GAL[pdpKey]&&GAL[pdpKey].cats)||[]);
+    $('dmodalCats').innerHTML=cats.map(function(c){return '<button class="dmcat'+(c===dmCat?' on':'')+'" data-dmcat="'+esc(c)+'">'+esc(c)+'</button>';}).join('');
+    $('dmodalTitle').textContent='Choose a '+String(PDP[pdpKey].title||'design').toLowerCase()+' design';
+    renderDModalGrid();
+  }
+  function renderDModalGrid(){
+    var items=(GAL[pdpKey]&&GAL[pdpKey].items)?GAL[pdpKey].items.slice():[];
+    items=items.filter(function(it){
+      if(dmCat!=='All'&&it.c!==dmCat){return false;}
+      if(dmSearch&&(String(it.t)+' '+String(it.c)+' '+String(it.m)).toLowerCase().indexOf(dmSearch)<0){return false;}
+      return true;
+    });
+    var grid=$('dmodalGrid');
+    if(!items.length){grid.innerHTML='<p class="gal-empty">No designs match your search.</p>';return;}
+    grid.innerHTML=items.map(function(it){
+      var vs=PDP[pdpKey].variants||[]; var vId=(vs.filter(function(v){return v.id===it.v})[0]||vs[0]||{}).id;
+      var art=it.img?('<div class="gal-art has-img"><img src="'+it.img+'" alt="'+esc(it.t)+'" loading="lazy"></div>'):('<div class="gal-art">'+shot(pdpKey,vId,'front')+'</div>');
+      return '<div class="dmcard">'+art+'<div class="gal-cap"><span class="gal-t">'+esc(it.t)+'</span><span class="gal-m">'+esc(it.c)+' · '+esc(it.m)+'</span></div>'+
+        '<button class="btn btn-pri dmselect" data-dmt="'+esc(it.t)+'" data-dmv="'+esc(vId)+'" data-dmm="'+esc(it.m)+'"'+(it.img?(' data-dmimg="'+esc(it.img)+'"'):'')+'>Select</button></div>';
+    }).join('');
+  }
+  $('pdpDesignsBtn').addEventListener('click',openDModal);
+  $('dmodalClose').addEventListener('click',closeDModal);
+  $('designModal').addEventListener('click',function(e){if(e.target===$('designModal'))closeDModal();});
+  $('dmodalSearch').addEventListener('input',function(){dmSearch=this.value.toLowerCase();renderDModalGrid();});
+  $('dmodalCats').addEventListener('click',function(e){var b=e.target.closest('[data-dmcat]');if(!b)return;dmCat=b.dataset.dmcat;
+    this.querySelectorAll('.dmcat').forEach(function(x){x.classList.toggle('on',x===b)});renderDModalGrid();});
+  $('dmodalGrid').addEventListener('click',function(e){var b=e.target.closest('.dmselect');if(!b)return;
+    pdpChoice={type:'design',title:b.dataset.dmt,vId:b.dataset.dmv,meta:b.dataset.dmm,img:b.dataset.dmimg||null};
+    updateChosen();closeDModal();});
+  document.addEventListener('keydown',function(e){if(!$('designModal').hidden&&e.key==='Escape')closeDModal();});
+
   function openShop(key){if(PDP[key]){pdpKey=key;pdpVar=PDP[key].variants[0].id;}navigate('shop');}
   document.addEventListener('click',function(e){var s=e.target.closest('[data-shop]');if(!s)return;e.preventDefault();openShop(s.dataset.shop);});
 
@@ -1458,13 +1575,14 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
     $('cartCount').textContent=n; $('cartCount').hidden=n===0;
     if(!cart.length){$('cartItems').innerHTML='<p class="empty">Your order is empty.<br>Browse a product and add it here.</p>';}
     else{$('cartItems').innerHTML=cart.map(function(c,i){
-      return '<div class="citem"><div class="ci-art">'+c.art+'</div><div class="ci-main"><div class="ci-t">'+c.title+'</div><div class="ci-d">'+c.variant+' · '+c.size+' · ×'+c.qty+'</div><button class="ci-x" data-rm="'+i+'">Remove</button></div><div class="ci-p">'+(c.price?INR(c.price*c.qty):'Quote')+'</div></div>';
+      var ch=c.choice?('<div class="ci-choice">'+(c.choice.type==='upload'?('&#128206; '+esc(c.choice.name)):('&#127912; '+esc(c.choice.title)))+'</div>'):'';
+      return '<div class="citem"><div class="ci-art">'+c.art+'</div><div class="ci-main"><div class="ci-t">'+c.title+'</div><div class="ci-d">'+c.variant+' · '+c.size+' · ×'+c.qty+'</div>'+ch+'<button class="ci-x" data-rm="'+i+'">Remove</button></div><div class="ci-p">'+(c.price?INR(c.price*c.qty):'Quote')+'</div></div>';
     }).join('');}
     $('cartTotal').textContent=(tot?INR(tot):'₹0')+(quote?' +':'');
   }
   $('cartCheckout').addEventListener('click',function(){
     if(!cart.length){return;}
-    var lines=cart.map(function(c){return '• '+c.qty+'× '+c.title+' — '+c.variant+', '+c.size+(c.price?(' — '+INR(c.price*c.qty)):' — quote')}).join('\n');
+    var lines=cart.map(function(c){return '• '+c.qty+'× '+c.title+' — '+c.variant+', '+c.size+(c.price?(' — '+INR(c.price*c.qty)):' — quote')+(c.choice?('\n   '+(c.choice.type==='upload'?('Photo uploaded: '+c.choice.name):('Design: '+c.choice.title))):'')}).join('\n');
     var tot=cart.reduce(function(a,c){return a+(c.price?c.price*c.qty:0)},0);
     var quote=cart.some(function(c){return !c.price});
     var msg="Hi ODN Prints! I'd like to order:\n"+lines+"\n\nIndicative total: "+INR(tot)+(quote?' + (custom items quoted separately)':'')+"\n\n(I'll share my photos / designs here.)";
