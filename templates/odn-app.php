@@ -1139,9 +1139,14 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
     if(t)t.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
   });
 
-  /* CURSOR SPOTLIGHT */
+  /* CURSOR SPOTLIGHT (rAF-throttled, transform-only — no layout reflow) */
   var spot=document.getElementById('spot');
-  if(fine&&!reduce){addEventListener('pointermove',function(e){spot.style.opacity=.9;spot.style.left=e.clientX+'px';spot.style.top=e.clientY+'px'},{passive:true});}
+  if(fine&&!reduce&&spot){
+    var sx=0,sy=0,stick=false;
+    function splace(){stick=false;spot.style.transform='translate3d('+sx+'px,'+sy+'px,0) translate(-50%,-50%)';}
+    addEventListener('pointermove',function(e){sx=e.clientX;sy=e.clientY;spot.style.opacity=.9;
+      if(!stick){stick=true;requestAnimationFrame(splace);}},{passive:true});
+  }
 
   /* REVEAL */
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
@@ -1187,12 +1192,14 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
   addEventListener('popstate',function(e){render(e.state&&e.state.view?e.state.view:hashView())});
   function hashView(){var h=(location.hash||'').replace('#','');return ['home','3d','metal','deskmat','shop','order','admin'].indexOf(h)>=0?h:'home';}
 
-  /* TILT + GLARE */
+  /* TILT + GLARE (rAF-throttled) */
   if(fine&&!reduce){
     document.querySelectorAll('[data-tilt]').forEach(function(card){
-      card.addEventListener('pointermove',function(e){var r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
-        card.style.transform='perspective(800px) rotateY('+((x-.5)*9)+'deg) rotateX('+((.5-y)*9)+'deg)';
-        card.style.setProperty('--mx',(x*100)+'%');card.style.setProperty('--my',(y*100)+'%')});
+      var tx=0,ty=0,tk=false;
+      function tplace(){tk=false;card.style.transform='perspective(800px) rotateY('+((tx-.5)*9)+'deg) rotateX('+((.5-ty)*9)+'deg)';
+        card.style.setProperty('--mx',(tx*100)+'%');card.style.setProperty('--my',(ty*100)+'%');}
+      card.addEventListener('pointermove',function(e){var r=card.getBoundingClientRect();tx=(e.clientX-r.left)/r.width;ty=(e.clientY-r.top)/r.height;
+        if(!tk){tk=true;requestAnimationFrame(tplace);}});
       card.addEventListener('pointerleave',function(){card.style.transform=''});
     });
   }
