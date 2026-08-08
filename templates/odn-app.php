@@ -106,16 +106,39 @@ html[data-theme="light"] .toggle .knob{transform:translateX(24px)}
 .back:hover{color:var(--accent-ink)}
 
 /* =================== HOME HERO =================== */
-.hhero{padding:78px 0 34px;text-align:center}
-.hhead{max-width:none}
-h1{font-family:var(--serif);font-weight:500;font-size:clamp(2.6rem,6vw,4.4rem);line-height:1.02;letter-spacing:-.025em;margin-bottom:20px}
+.hhero{padding:52px 0 30px;display:grid;grid-template-columns:1.02fr .98fr;gap:46px;align-items:center;text-align:left}
+.hcopy{max-width:none}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,5vw,4rem);line-height:1.03;letter-spacing:-.025em;margin-bottom:20px}
 h1 em{font-style:italic;background:linear-gradient(120deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.lede{font-size:1.13rem;color:var(--dim);max-width:34em;margin-bottom:30px}
-.hhero .lede{margin-left:auto;margin-right:auto}
-.hcta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
-.stats{margin-top:40px;display:flex;gap:34px;flex-wrap:wrap;justify-content:center}
+.lede{font-size:1.1rem;color:var(--dim);max-width:34em;margin-bottom:28px}
+.hcta{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-start}
+.stats{margin-top:36px;display:flex;gap:30px;flex-wrap:wrap;justify-content:flex-start}
 .stat b{display:block;font-family:var(--serif);font-size:1.7rem;font-weight:600;line-height:1}
 .stat span{font-size:.74rem;color:var(--dim)}
+/* hero visual */
+.hvisual{position:relative}
+.hvisual-img{position:relative;border:1px solid var(--border-strong);border-radius:24px;aspect-ratio:4/3;overflow:hidden;
+  display:grid;place-items:center;box-shadow:var(--glass-shadow);
+  background:radial-gradient(120% 90% at 58% 6%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 60%),var(--bg-3)}
+.hvisual-img img{width:100%;height:100%;object-fit:cover;display:block}
+.hvisual-img>svg{width:86%;height:auto;filter:drop-shadow(0 20px 34px rgba(0,0,0,.5))}
+.hvisual-ph{position:absolute;top:12px;left:12px;font-family:var(--mono);font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);color:var(--faint);z-index:2}
+.hfeatures{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:206px;display:flex;flex-direction:column;gap:14px;
+  padding:18px;border:1px solid var(--border);border-radius:18px;background:color-mix(in srgb,var(--surface) 88%,transparent);
+  backdrop-filter:blur(12px);box-shadow:var(--glass-shadow);z-index:2}
+.hf{display:flex;gap:11px;align-items:flex-start}
+.hf svg{width:22px;height:22px;color:var(--accent-ink);flex:none;margin-top:2px}
+.hf b{display:block;font-size:.84rem;font-weight:600;margin-bottom:2px}
+.hf span{font-size:.71rem;color:var(--dim);line-height:1.35}
+/* trust bar */
+.trustbar{margin:6px 0;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:18px;
+  background:var(--surface);backdrop-filter:blur(12px);overflow:hidden}
+.tb{display:flex;gap:12px;align-items:center;padding:20px 24px}
+.tb+.tb{border-left:1px solid var(--border)}
+.tb svg{width:26px;height:26px;color:var(--accent-ink);flex:none}
+.tb b{display:block;font-size:.9rem;font-weight:600}
+.tb span{font-size:.75rem;color:var(--dim)}
 
 /* =================== PRODUCT TILES (grayscale -> colour) =================== */
 .prods{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -396,6 +419,15 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
 .reveal.in{opacity:1;transform:none}
 
 @media(max-width:900px){
+  .hhero{grid-template-columns:1fr;gap:32px;text-align:center;padding-top:34px}
+  .hvisual{order:-1}
+  .hcta,.stats{justify-content:center}
+  .hhero .lede{margin-left:auto;margin-right:auto}
+  .hfeatures{position:static;transform:none;width:auto;margin-top:16px;flex-direction:row;flex-wrap:wrap;text-align:left}
+  .hf{flex:1;min-width:150px}
+  .trustbar{grid-template-columns:repeat(2,1fr)}
+  .tb:nth-child(odd){border-left:0}
+  .tb:nth-child(n+3){border-top:1px solid var(--border)}
   .prods{grid-template-columns:1fr}
   .why-grid{grid-template-columns:repeat(2,1fr)}
   .feat4{grid-template-columns:repeat(2,1fr)}
@@ -409,7 +441,9 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
     background:var(--bg-2);border-bottom:1px solid var(--border);padding:20px 26px;gap:18px}
   .navlinks.open{display:flex}.burger{display:block}
 }
-@media(max-width:560px){.grid7{grid-template-columns:1fr}.why-grid{grid-template-columns:1fr}.feat4{grid-template-columns:1fr}.stats{gap:22px}}
+@media(max-width:560px){.grid7{grid-template-columns:1fr}.why-grid{grid-template-columns:1fr}.feat4{grid-template-columns:1fr}.stats{gap:22px}
+  .trustbar{grid-template-columns:1fr}.tb{border-left:0!important}.tb+.tb{border-top:1px solid var(--border)}
+  .hfeatures{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}.reveal{opacity:1;transform:none}.prod .shot{filter:grayscale(0)}}
   /* ---- Gallery lightbox ---- */
   .lb-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.66);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:90;opacity:0;animation:lbfade .22s ease forwards}
@@ -619,19 +653,55 @@ footer{border-top:1px solid var(--border);padding:36px 0;color:var(--faint);font
 
   <!-- hero -->
   <section class="hhero wrap">
-    <div class="hhead">
+    <div class="hcopy">
       <span class="eyebrow mono"><span class="dot"></span> Custom print studio · Hisar</span>
       <h1>One studio.<br><em>Three</em> ways to make it real.</h1>
+      <p class="lede">Turn your idea or design into a 3D-printed figurine, a metal print or a premium desk mat — sculpted, printed and finished by hand in Hisar.</p>
+      <div class="hcta">
+        <button class="btn btn-pri btn-lg" data-mag data-go="order">Start an order →</button>
+        <button class="btn btn-ghost btn-lg" data-scroll="products">Explore products</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><b data-count="3">0</b><span>Product lines</span></div>
+        <div class="stat"><b data-count="7" data-suffix="+">0</b><span>Figurine styles</span></div>
+        <div class="stat"><b data-count="100" data-suffix="%">0</b><span>Hand-finished</span></div>
+        <div class="stat"><b>Pan-India</b><span>Shipping</span></div>
+      </div>
     </div>
-    <p class="lede">Turn a photo or a design into a 3D-printed figurine, a metal print, or a desk mat — sculpted, printed and finished by hand in Hisar.</p>
-    <div class="hcta">
-      <button class="btn btn-pri btn-lg" data-mag data-go="order">Start an order →</button>
+    <div class="hvisual">
+      <div class="hvisual-img" id="heroImg">
+        <span class="hvisual-ph">Hero image · replace with your photo</span>
+        <!-- SWAP: replace this SVG with <img src="MEDIA_URL" alt="ODN Prints hero"> once uploaded -->
+        <svg viewBox="0 0 340 260" aria-hidden="true">
+          <defs><linearGradient id="hmet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c9ced6"/><stop offset=".5" stop-color="#eef1f5"/><stop offset="1" stop-color="#a9afb9"/></linearGradient></defs>
+          <polygon points="46,206 250,206 300,242 6,242" fill="#191d24" stroke="var(--accent)" stroke-opacity=".35"/>
+          <rect x="188" y="66" width="120" height="122" rx="9" fill="url(#hmet)"/>
+          <path d="M196 176 l26 -40 20 24 16 -28 42 44 Z" fill="#222732" opacity=".55"/>
+          <circle cx="276" cy="100" r="12" fill="var(--accent)"/>
+          <g transform="translate(66,44)">
+            <ellipse cx="55" cy="40" rx="34" ry="33" fill="var(--accent)"/>
+            <path d="M24 74 q31 -15 62 0 l-7 82 q-24 12 -48 0 Z" fill="var(--accent)"/>
+            <ellipse cx="44" cy="40" rx="7" ry="9" fill="#0b0b0b" opacity=".85"/><ellipse cx="66" cy="40" rx="7" ry="9" fill="#0b0b0b" opacity=".85"/>
+            <path d="M45 56 q10 7 20 0" stroke="#0b0b0b" stroke-width="3" fill="none" stroke-linecap="round" opacity=".85"/>
+            <rect x="40" y="156" width="30" height="8" rx="3" fill="#0b0b0b" opacity=".3"/>
+          </g>
+        </svg>
+      </div>
+      <div class="hfeatures">
+        <div class="hf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg><div><b>Premium Quality</b><span>Carefully crafted with the finest materials.</span></div></div>
+        <div class="hf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 3l7 7-9 9-7 1 1-7 8-10z"/><path d="M11 6l7 7"/></svg><div><b>Made to Order</b><span>Personalised products made just for you.</span></div></div>
+        <div class="hf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7M12 11v10"/></svg><div><b>Secure Packaging</b><span>Safe delivery, every single time.</span></div></div>
+      </div>
     </div>
-    <div class="stats">
-      <div class="stat"><b data-count="3">0</b><span>Product lines</span></div>
-      <div class="stat"><b data-count="7">0</b><span>Figurine styles</span></div>
-      <div class="stat"><b data-count="100" data-suffix="%">0</b><span>Hand-finished</span></div>
-      <div class="stat"><b>Pan-India</b><span>Shipping</span></div>
+  </section>
+
+  <!-- trust bar -->
+  <section class="wrap" style="padding-top:4px">
+    <div class="trustbar reveal">
+      <div class="tb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l2.5 5 5.5.8-4 3.9 1 5.5-5-2.6-5 2.6 1-5.5-4-3.9 5.5-.8z"/></svg><div><b>Made in India</b><span>Crafted with pride in Hisar</span></div></div>
+      <div class="tb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><div><b>Secure Checkout</b><span>100% safe &amp; secure payments</span></div></div>
+      <div class="tb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><div><b>Fast Turnaround</b><span>On-time delivery promise</span></div></div>
+      <div class="tb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 13a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-2v-6h4M4 13v4a2 2 0 0 0 2 2h2v-6H4"/></svg><div><b>24/7 Support</b><span>We're here to help</span></div></div>
     </div>
   </section>
 
